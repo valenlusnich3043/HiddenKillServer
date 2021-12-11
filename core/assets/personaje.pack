@@ -1,0 +1,26 @@
+
+personaje.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Cyborg_run
+  rotate: false
+  xy: 1, 1
+  size: 288, 48
+  orig: 288, 48
+  offset: 0, 0
+  index: -1
+Cyborg_idle
+  rotate: false
+  xy: 291, 1
+  size: 192, 48
+  orig: 192, 48
+  offset: 0, 0
+  index: -1
+Cyborg_jump
+  rotate: false
+  xy: 485, 1
+  size: 192, 48
+  orig: 192, 48
+  offset: 0, 0
+  index: -1
