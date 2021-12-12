@@ -58,7 +58,7 @@ public class HiddenKIllServer extends Game {
 		
 		if(!Global.empieza) {
 			Render.begin();
-//			espera.dibujar();
+//		 	espera.dibujar();
 			Render.end();
 		} else {
 		

@@ -50,7 +50,8 @@ public class HiloServidor extends Thread{
 	}
 
 	private void procesarMensaje(DatagramPacket dp) {
-		String msg = dp.getData().toString().trim();
+		String msg = (new String(dp.getData())).trim();
+		System.out.println("Mensaje = " + msg);
 		if(msg.equals("Conexion")) {
 			System.out.println("Llega msg conexion cliente " + cantClientes);
 			if(cantClientes < 2) {
