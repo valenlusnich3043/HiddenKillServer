@@ -25,8 +25,6 @@ public class HiddenKIllServer extends Game {
 
 	public static AssetManager manager;
 	
-	private HiloServidor hs;
-	
 	@Override
 	public void create () {
 		espera = new Texto(Recursos.FUENTE, 100, Color.WHITE, false);
@@ -47,32 +45,32 @@ public class HiddenKIllServer extends Game {
 		camera.setToOrtho(false, 750, 550);
 	    camera.update();
 	    
-	    hs = new HiloServidor();
-	    hs.start();	
+	    	
 	}
  
 	@Override
-	public void render () {
-		
+	public void render() {
+
 		Render.limpiarPantalla();
-		
-		if(!Global.empieza) {
-			Render.begin();
+
+//		if(!Global.empieza) {
+//			Render.begin();
 //			espera.dibujar();
-			Render.end();
-		} else {
-		
+//			Render.end();
+//		} else {
+//		
 		super.render();
-		}
+
+//		}
 //	    camera.
 //	    camera.update();
 //	    batch.setProjectionMatrix(camera.combined); REVISAR
-	    
+
 //		batch.begin();
 ////		cabra.render(batch);
 ////		batch.draw(personajeImagen1, 0, 0);
 //		batch.end();
-		
+
 	}
 	
 	@Override

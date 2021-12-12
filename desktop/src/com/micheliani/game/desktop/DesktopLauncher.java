@@ -7,7 +7,7 @@ import com.micheliani.gameserver.HiddenKIllServer;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "Hidden Kill";
+		config.title = "Hidden Kill SV";
 		new LwjglApplication(new HiddenKIllServer(), config);
 	}
 }
