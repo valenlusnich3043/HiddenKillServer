@@ -3,12 +3,14 @@ package com.micheliani.gameserver.sprites;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.micheliani.game.sprites.Personaje.State;
 import com.micheliani.gameserver.HiddenKIllServer;
 import com.micheliani.gameserver.pantallas.PantallaJuego;
 
@@ -95,11 +97,18 @@ public class Personaje extends Sprite {
 		
 		stateTimer = currentState == previousState ? stateTimer + dt: 0; 
 		previousState = currentState;
-		System.out.println("X:  " + b2body.getPosition().x + "  Y:   " + b2body.getPosition().y);
 
 		return region;
 	}
+	
 
+	public void jump2(){
+        if (currentState != State.JUMPING) {
+            b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+            currentState = State.JUMPING;
+        }
+    }
+	
 	private State getState() {
 		if (b2body.getLinearVelocity().y > 0 || b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING) {
 			return State.JUMPING;
@@ -114,6 +123,13 @@ public class Personaje extends Sprite {
 		}
 
 	}
+	
+	public void jump(){
+        if (currentState != State.JUMPING) {
+            b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+            currentState = State.JUMPING;
+        }
+    }
 	
 	public void definePersonaje() {
 		BodyDef bdef = new BodyDef();

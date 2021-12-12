@@ -6,7 +6,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-import com.micheliani.gameserver.HiddenKIllServer;
 import com.micheliani.gameserver.pantallas.PantallaJuego;
 import com.micheliani.gameserver.utiles.Global;
 
@@ -29,7 +28,6 @@ public class HiloServidor extends Thread{
 	}
 	 
 	public void enviarMensaje(String msg, InetAddress ip, int puerto) {
-
 		byte[] data = msg.getBytes();
 		DatagramPacket dp = new DatagramPacket(data, data.length, ip, puerto);
 		try {
@@ -57,18 +55,6 @@ public class HiloServidor extends Thread{
 	private void procesarMensaje(DatagramPacket dp) {
 		String msg = (new String(dp.getData())).trim();
 		System.out.println("Mensaje = " + msg);
-<<<<<<< HEAD
-		if(msg.equals("Conexion")) {
-			System.out.println("Llega msg conexion cliente " + cantClientes);
-			if(cantClientes < 2) {
-				clientes[cantClientes] = new DireccionRed(dp.getAddress(), dp.getPort());
-				enviarMensaje("OK", clientes[cantClientes].getIp(),clientes[cantClientes++].getPuerto());
-				if(cantClientes == 2) {
-					Global.empieza = true;
-					for (int i = 0; i < clientes.length; i++) {
-						enviarMensaje("Empieza", clientes[i].getIp(),clientes[i].getPuerto());
-						
-=======
 
 		int nroCliente = -1;
 
@@ -92,17 +78,53 @@ public class HiloServidor extends Thread{
 							enviarMensaje("Empieza", clientes[i].getIp(), clientes[i].getPuerto());
 
 						}
->>>>>>> d452f0f3d15f0b5a49dce56ec6c1c56514a5460f
 					}
 				}
 			}
 		} else {
 			if(nroCliente != -1) {
-				if(msg.equals("Aribba")) {
+				
+				if(msg.equals("ApreteArriba")) {
+					if(nroCliente==0) {
+						app.isArriba1 = true;
+					}else {
+						app.isArriba2 = true;
+					}
 					
-				}else if(msg.equals("Derecha")) {
+				}else if(msg.equals("ApreteDerecha")) {
+					if(nroCliente == 0) {
+						app.isDerecha1 = true;
+					}else {
+						app.isDerecha2 = true;
+					}
 					
-				} else {
+				} else if(msg.equals("ApreteIzquierda")){
+					if(nroCliente == 0) {
+						app.isIzquierda1 = true;
+					}else {
+						app.isIzquierda2 = true;
+					}
+					
+				}else if(msg.equals("DejeApretarArriba")) {
+					if(nroCliente==0) {
+						app.isArriba1 = false;
+					}else {
+						app.isArriba2 = false;
+					}
+					
+				}else if(msg.equals("DejeApretarDerecha")) {
+					if(nroCliente==0) {
+						app.isDerecha1 = false;
+					}else {
+						app.isDerecha2 = false;
+					}
+					
+				}else if(msg.equals("DejeApretarIzquierda")) {
+					if(nroCliente == 0) {
+						app.isIzquierda1 = false;
+					}else {
+						app.isIzquierda2 = false;
+					}
 					
 				}
 				
@@ -111,6 +133,18 @@ public class HiloServidor extends Thread{
 		
 		
 	}
+
+	public void enviarMensajeATodos(String msg) {
+		for (int i = 0; i < clientes.length; i++) {
+			enviarMensaje(msg, clientes[i].getIp(), clientes[i].getPuerto());
+		}
+		
+	}
 	
 	
 }
+	
+
+	
+
+

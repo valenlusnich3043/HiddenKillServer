@@ -52,7 +52,6 @@ public class HiddenKIllServer extends Game {
 	public void render() {
 
 		Render.limpiarPantalla();
-<<<<<<< HEAD
 		
 		if(!Global.empieza) {
 			Render.begin();
@@ -60,7 +59,6 @@ public class HiddenKIllServer extends Game {
 			Render.end();
 		} else {
 		
-=======
 
 //		if(!Global.empieza) {
 //			Render.begin();
@@ -68,10 +66,9 @@ public class HiddenKIllServer extends Game {
 //			Render.end();
 //		} else {
 //		
->>>>>>> d452f0f3d15f0b5a49dce56ec6c1c56514a5460f
 		super.render();
 
-//		}
+		}
 //	    camera.
 //	    camera.update();
 //	    batch.setProjectionMatrix(camera.combined); REVISAR
