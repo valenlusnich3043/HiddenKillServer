@@ -58,7 +58,7 @@ public class PantallaJuego implements Screen{
 	private int nroPlayer = 1;
 	
 	public PantallaJuego(HiddenKIllServer hiddenKill) { 
-		atlas = new TextureAtlas("personaje.pack");//empieza error video 10
+		atlas = new TextureAtlas("personaje.pack");
 		
 		this.hiddenKill = hiddenKill;
 		camaraJuego = new OrthographicCamera();
@@ -103,10 +103,12 @@ public class PantallaJuego implements Screen{
 		
 		
 		if(isArriba1) {
-			player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
+			player.jump();
+//			player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
 			HiddenKIllServer.manager.get("audio/sonidos/salto1.wav",  Sound.class).play();
 		}else if(isArriba2){
-			player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
+			player2.jump();
+//			player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
 			HiddenKIllServer.manager.get("audio/sonidos/salto1.wav",  Sound.class).play();
 		}
 		

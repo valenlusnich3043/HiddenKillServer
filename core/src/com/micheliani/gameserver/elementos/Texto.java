@@ -1,13 +1,10 @@
 package com.micheliani.gameserver.elementos;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.math.Vector2;
-import com.micheliani.game.utiles.Render;
+import com.micheliani.gameserver.utiles.Render;
 
 public class Texto {
 	BitmapFont fuente;

@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.micheliani.game.sprites.Personaje.State;
 import com.micheliani.gameserver.HiddenKIllServer;
 import com.micheliani.gameserver.pantallas.PantallaJuego;
 
@@ -100,14 +99,6 @@ public class Personaje extends Sprite {
 
 		return region;
 	}
-	
-
-	public void jump2(){
-        if (currentState != State.JUMPING) {
-            b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
-            currentState = State.JUMPING;
-        }
-    }
 	
 	private State getState() {
 		if (b2body.getLinearVelocity().y > 0 || b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING) {
