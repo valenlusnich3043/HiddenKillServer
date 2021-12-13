@@ -187,7 +187,8 @@ public class PantallaJuego implements Screen{
 			player.draw(hiddenKill.batch);
 			player2.draw(hiddenKill.batch);
 
-			hs.enviarMensajeATodos("Actualizar-P1- " + player.getY());
+			hs.enviarMensajeATodos("Actualizar-P1-" + player.getX()+ "-" + player.getY());
+			hs.enviarMensajeATodos("Actualizar-P2-" + player2.getX()+ "-" + player2.getY());
 			
 			hiddenKill.batch.end();
 

@@ -71,7 +71,7 @@ public class HiloServidor extends Thread{
 				System.out.println("Llega msg conexion cliente " + cantClientes);
 				if (cantClientes < 2) {
 					clientes[cantClientes] = new DireccionRed(dp.getAddress(), dp.getPort());
-					enviarMensaje("OK", clientes[cantClientes].getIp(), clientes[cantClientes++].getPuerto());
+					enviarMensaje("OK-"+(cantClientes+1), clientes[cantClientes].getIp(), clientes[cantClientes++].getPuerto());
 					if (cantClientes == 2) {
 						Global.empieza = true;
 						for (int i = 0; i < clientes.length; i++) {
