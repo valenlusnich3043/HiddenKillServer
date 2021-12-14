@@ -51,11 +51,14 @@ public class PantallaJuego implements Screen {
 
 	// Red
 	private HiloServidor hs;
+	
+	private int jugadorMuerto = 0;
+	private float contInicio = 0; 
 
 	public boolean isArriba1 = false, isDerecha1 = false, isIzquierda1 = false, isArriba2 = false, isDerecha2 = false,
 			isIzquierda2 = false;
 
-	private int nroPlayer = 1;
+//	private int nroPlayer = 1;
 
 	public PantallaJuego(HiddenKIllServer hiddenKill) {
 		atlas = new TextureAtlas("personaje.pack");
@@ -141,6 +144,11 @@ public class PantallaJuego implements Screen {
 
 //		camaraJuego.position.x = player.b2body.getPosition().x;
 //		camaraJuego.position.x = player2.b2body.getPosition().x;
+		
+		contInicio += dt;
+		if(contInicio>5) {
+			camaraJuego.position.x += 2*dt;
+		}
 
 		camaraJuego.position.x += 2 * dt;
 
@@ -164,14 +172,18 @@ public class PantallaJuego implements Screen {
 		if (player.getNroPersonaje() == 1) {
 			if (!cam.frustum.pointInFrustum(player.getX(), player.getY(), 0) && player.currentState != State.DEAD) {
 				player.currentState = Personaje.State.DEAD;
+				jugadorMuerto = 1;
 				return true;
+				
 			} else {
 				return false;
 			}
 		} else {
 			if (!cam.frustum.pointInFrustum(player2.getX(), player2.getY(), 0) && player2.currentState != State.DEAD) {
 				player2.currentState = Personaje.State.DEAD;
+				jugadorMuerto = 2;
 				return true;
+				
 			} else {
 				return false;
 			}
@@ -214,6 +226,8 @@ public class PantallaJuego implements Screen {
 
 			hiddenKill.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 			hud.stage.draw();
+			
+			chequearFueraDeCamara(camaraJuego);
 
 			if (gameOver()) {
 				int x = 0;
@@ -232,9 +246,11 @@ public class PantallaJuego implements Screen {
 
 	public boolean gameOver() {
 		if (player.currentState == Personaje.State.DEAD) {
+			hs.enviarMensajeATodos("Fin-P1");
 			return true;
 		}
 		if (player2.currentState == Personaje.State.DEAD) {
+			hs.enviarMensajeATodos("Fin-P2");
 			return true;
 		}
 

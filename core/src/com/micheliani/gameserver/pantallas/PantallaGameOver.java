@@ -58,18 +58,16 @@ public class PantallaGameOver implements Screen{
 	@Override
 	public void render(float delta) {
 		
-		if(Gdx.input.justTouched()) {
-			if(p == 1) {
-				game.setScreen(new PantallaJuego((HiddenKIllServer) game));
-				hs.enviarMensajeATodos("Fin-P1");
-			}else {
-				game.setScreen(new PantallaJuego((HiddenKIllServer) game));
-				hs.enviarMensajeATodos("Fin-P2");
-			}
-			
-			
-			dispose();
-		}
+//		if(Gdx.input.justTouched()) {
+//			if(p == 1) {
+//				game.setScreen(new PantallaJuego((HiddenKIllServer) game));
+//				hs.enviarMensajeATodos("Fin-P1");
+//			}else {
+//				game.setScreen(new PantallaJuego((HiddenKIllServer) game));
+//				hs.enviarMensajeATodos("Fin-P2");
+//			}
+//			dispose();
+//		}
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
