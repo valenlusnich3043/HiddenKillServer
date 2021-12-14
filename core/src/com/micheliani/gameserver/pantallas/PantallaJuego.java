@@ -216,7 +216,14 @@ public class PantallaJuego implements Screen {
 			hud.stage.draw();
 
 			if (gameOver()) {
-				hiddenKill.setScreen(new PantallaGameOver(hiddenKill));
+				int x = 0;
+				if (player.currentState == Personaje.State.DEAD) {
+					x = 1;
+				}
+				if (player2.currentState == Personaje.State.DEAD) {
+					x = 2;
+				}
+				hiddenKill.setScreen(new PantallaGameOver(hiddenKill, x));
 				dispose();
 			}
 		}
@@ -225,10 +232,10 @@ public class PantallaJuego implements Screen {
 
 	public boolean gameOver() {
 		if (player.currentState == Personaje.State.DEAD) {
-			return false;
+			return true;
 		}
 		if (player2.currentState == Personaje.State.DEAD) {
-			return false;
+			return true;
 		}
 
 		return false;

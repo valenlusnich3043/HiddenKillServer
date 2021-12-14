@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.micheliani.gameserver.HiddenKIllServer;
+import com.micheliani.gameserver.red.HiloServidor;
 
 public class PantallaGameOver implements Screen{
 
@@ -20,9 +21,13 @@ public class PantallaGameOver implements Screen{
 	private Stage stage;
 	
 	private Game game; 
+	
+	private HiloServidor hs;
+	private int p;
 
-	public PantallaGameOver(Game game) {
+	public PantallaGameOver(Game game, int x) {
 		this.game = game;
+		this.p = x;
 		viewport = new FitViewport(HiddenKIllServer.ancho, HiddenKIllServer.alto, new OrthographicCamera());
 		stage = new Stage(viewport, ((HiddenKIllServer) game).batch);
 		
@@ -54,7 +59,15 @@ public class PantallaGameOver implements Screen{
 	public void render(float delta) {
 		
 		if(Gdx.input.justTouched()) {
-			game.setScreen(new PantallaJuego((HiddenKIllServer) game));
+			if(p == 1) {
+				game.setScreen(new PantallaJuego((HiddenKIllServer) game));
+				hs.enviarMensajeATodos("Fin-P1");
+			}else {
+				game.setScreen(new PantallaJuego((HiddenKIllServer) game));
+				hs.enviarMensajeATodos("Fin-P2");
+			}
+			
+			
 			dispose();
 		}
 		
