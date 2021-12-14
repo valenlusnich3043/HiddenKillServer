@@ -38,7 +38,7 @@ public class PantallaGameOver implements Screen{
 		table.setFillParent(true);
 		
 		Label gameOverLabel = new Label("FIN DEL JUEGO", font);
-		Label ganador = new Label("Pierde el jugador" + this.jugador, font);
+		Label ganador = new Label("PERDIO", font);
 		Label juegarDeNuevoLabel = new Label("Haz click en cualquier parte de la pantalla para iniciar de vuelta", font);
 		
 		table.add(gameOverLabel).expandX();

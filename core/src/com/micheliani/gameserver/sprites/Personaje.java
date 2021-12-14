@@ -95,9 +95,9 @@ public class Personaje extends Sprite {
 		}
 
 		if(nroPersonaje == 1) {	
-			hs.enviarMensajeATodos("ActualizarM-P1-" + currentState);					
+			hs.enviarMensajeATodos("ActualizarM!P1!" + currentState);					
 		}else {
-			hs.enviarMensajeATodos("ActualizarM-P2-" + currentState);				
+			hs.enviarMensajeATodos("ActualizarM!P2!" + currentState);				
 		} 
 		
 		if ((b2body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {

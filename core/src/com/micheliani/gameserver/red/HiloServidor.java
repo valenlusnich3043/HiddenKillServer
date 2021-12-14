@@ -54,7 +54,7 @@ public class HiloServidor extends Thread{
 
 	private void procesarMensaje(DatagramPacket dp) {
 		String msg = (new String(dp.getData())).trim();
-		System.out.println("Mensaje = " + msg);
+//		System.out.println("Mensaje = " + msg);
 
 		int nroCliente = -1;
 

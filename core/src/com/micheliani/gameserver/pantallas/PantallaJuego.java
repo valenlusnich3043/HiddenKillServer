@@ -154,6 +154,8 @@ public class PantallaJuego implements Screen {
 		camaraJuego.update();
 		// tell our renderer to draw only what our camera can see in our game world
 		renderer.setView(camaraJuego);
+		
+
 
 		// Determino los finales del juego
 	}
@@ -176,13 +178,15 @@ public class PantallaJuego implements Screen {
 		if(!camaraJuego.frustum.pointInFrustum(player.b2body.getPosition().x, player.b2body.getPosition().y, 0)) {
 			tiempoParaMorir += delta;
 			if(tiempoParaMorir > 5f) {
-				player.currentState = Personaje.State.DEAD;				
+				player.currentState = Personaje.State.DEAD;		
+	            hs.enviarMensajeATodos("Termino!1");
 			}
 			
 		}else if(!camaraJuego.frustum.pointInFrustum(player2.b2body.getPosition().x, player2.b2body.getPosition().y, 0)) {
 			tiempoParaMorir += delta;
 			if(tiempoParaMorir > 5f) {
-				player2.currentState = Personaje.State.DEAD;				
+				player2.currentState = Personaje.State.DEAD;
+	            hs.enviarMensajeATodos("Termino!2");
 			}		
 		}
 	}
@@ -215,57 +219,44 @@ public class PantallaJuego implements Screen {
 			player.draw(hiddenKill.batch);
 			player2.draw(hiddenKill.batch);
 
-			hs.enviarMensajeATodos("Actualizar-P1-" + player.getX() + "-" + player.getY());
-			hs.enviarMensajeATodos("Actualizar-P2-" + player2.getX() + "-" + player2.getY());
+			hs.enviarMensajeATodos("Actualizar!P1!" + player.getX() + "!" + player.getY());
+			hs.enviarMensajeATodos("Actualizar!P2!" + player2.getX() + "!" + player2.getY());
 
 			hiddenKill.batch.end();
 
 			hiddenKill.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 			hud.stage.draw();
 			
+
 			chequearFueraDeCamara(delta);
-
-			if (gameOver()) {
-				int x = 0;
-				if (player.currentState == Personaje.State.DEAD) {
-					x = 1;
-				}
-				if (player2.currentState == Personaje.State.DEAD) {
-					x = 2;
-				}
-				hiddenKill.setScreen(new PantallaGameOver(hiddenKill, x));
-				dispose();
-			}
+//			
+//			if (gameOver()) {
+//				int x = 0;
+//				if (player.currentState == Personaje.State.DEAD) {
+//					x = 1;
+//				}
+//				if (player2.currentState == Personaje.State.DEAD) {
+//					x = 2;
+//				}
+//				hiddenKill.setScreen(new PantallaGameOver(hiddenKill, x));
+//				dispose();
+//			}
 		}
 
 	}
 
-	public boolean gameOver() {
-		if (player.currentState == Personaje.State.DEAD) {
-			hs.enviarMensajeATodos("Fin-P1");
-			return true;
-		}
-		if (player2.currentState == Personaje.State.DEAD) {
-			hs.enviarMensajeATodos("Fin-P2");
-			return true;
-		}
-		return false;
-	}
+//	public boolean gameOver() {
+//		if (player.currentState == Personaje.State.DEAD) {
+//			hs.enviarMensajeATodos("Fin!P1");
+//			return true;
+//		}
+//		if (player2.currentState == Personaje.State.DEAD) {
+//			hs.enviarMensajeATodos("Fin!P2");
+//			return true;
+//		}
+//		return false;
+//	}
 	
-	private void gameOver2() {
-		// Jugador 1
-        // Cuando el personaje se cae en la lava
-        if (player.getY() < 0) {
-            hs.enviarMensajeATodos("Termino-P1");
-        }
-
-        // Usamos la ubicacion del personaje para poder determinar la meta
-        if ((player.getX() <= 1.64f && player.getY() >= 1.46f)
-                && (player.getX() >= 1.32f && player.getY() <= 1.6f)) {
-            servidor.enviarATodos("finalizoCarrera!1");
-//            jugador1.llegoSalida();
-        }
-	}
 
 	@Override
 	public void resize(int width, int height) {
