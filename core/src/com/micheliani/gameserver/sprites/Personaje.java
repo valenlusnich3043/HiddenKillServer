@@ -1,5 +1,6 @@
 package com.micheliani.gameserver.sprites;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.micheliani.gameserver.HiddenKIllServer;
 import com.micheliani.gameserver.pantallas.PantallaJuego;
+import com.micheliani.gameserver.red.HiloServidor;
 
 public class Personaje extends Sprite {
 	public enum State {
@@ -28,10 +30,16 @@ public class Personaje extends Sprite {
 	private float stateTimer;
 	private boolean runningRight;
 	private boolean muerteJugador;
-
-	public Personaje(World world, PantallaJuego screen) {
+	
+	private HiloServidor hs;
+	private int nroPersonaje;
+	
+	
+	public Personaje(World world, PantallaJuego screen, HiloServidor hs, int nroPersonaje) {
 		super(screen.getAtlas().findRegion("Cyborg_idle"));
+		this.hs = hs;
 		this.world = world;
+		this.nroPersonaje = nroPersonaje;
 		currentState = State.STANDING;
 		previousState = State.STANDING;
 		stateTimer = 0;
@@ -74,7 +82,8 @@ public class Personaje extends Sprite {
 		TextureRegion region;
 		switch (currentState) {
 		case JUMPING:
-			region = CyborgJump.getKeyFrame(stateTimer);
+			region = CyborgJump.getKeyFrame(stateTimer);			
+			
 			break;
 		case RUNNING:
 			region = CyborgRun.getKeyFrame(stateTimer, true);
@@ -86,6 +95,13 @@ public class Personaje extends Sprite {
 			break;
 		}
 
+		if(nroPersonaje == 1) {	
+			hs.enviarMensajeATodos("ActualizarM-P1-" + currentState);					
+		}else {
+			hs.enviarMensajeATodos("ActualizarM-P2-" + currentState);				
+
+		} 
+		
 		if ((b2body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
 			region.flip(true, false);
 			runningRight = false;
@@ -115,6 +131,11 @@ public class Personaje extends Sprite {
 
 	}
 	
+	
+	public int getNroPersonaje() {
+		return nroPersonaje;
+	}
+
 	public void jump(){
         if (currentState != State.JUMPING) {
             b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);

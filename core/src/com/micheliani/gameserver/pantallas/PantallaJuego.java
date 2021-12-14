@@ -20,143 +20,163 @@ import com.micheliani.gameserver.escenas.Hud;
 import com.micheliani.gameserver.herramientas.B2WorldCreator;
 import com.micheliani.gameserver.red.HiloServidor;
 import com.micheliani.gameserver.sprites.Personaje;
+import com.micheliani.gameserver.sprites.Personaje.State;
 import com.micheliani.gameserver.utiles.Global;
 import com.micheliani.gameserver.utiles.Render;
 
-public class PantallaJuego implements Screen{
+public class PantallaJuego implements Screen {
 
 	private HiddenKIllServer hiddenKill;
 	private TextureAtlas atlas;
-	
+
 	// basic playscreen variables
 	private OrthographicCamera camaraJuego;
 	private Viewport gamePort;
 	private Hud hud;
-	
-	
-	//Tiled map variables
+
+	// Tiled map variables
 	private TmxMapLoader maploader;
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
-		
-	//Box2d variables
+
+	// Box2d variables
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	
+
 	private Personaje player;
 	private Personaje player2;
-	
-	//Asset Manager
+
+	// Asset Manager
 	private Music music;
-	
-	//Red
+
+	// Red
 	private HiloServidor hs;
-	
-	public boolean isArriba1 = false, isDerecha1 = false, isIzquierda1 = false, 
-				   isArriba2 = false, isDerecha2 = false, isIzquierda2 = false;
-	
+
+	public boolean isArriba1 = false, isDerecha1 = false, isIzquierda1 = false, isArriba2 = false, isDerecha2 = false,
+			isIzquierda2 = false;
+
 	private int nroPlayer = 1;
-	
-	public PantallaJuego(HiddenKIllServer hiddenKill) { 
+
+	public PantallaJuego(HiddenKIllServer hiddenKill) {
 		atlas = new TextureAtlas("personaje.pack");
-		
+
 		this.hiddenKill = hiddenKill;
 		camaraJuego = new OrthographicCamera();
-		gamePort = new FitViewport(HiddenKIllServer.ancho / HiddenKIllServer.PPM, HiddenKIllServer.alto / HiddenKIllServer.PPM, camaraJuego);
-		
-		hud = new Hud(hiddenKill.batch); 
-		
+		gamePort = new FitViewport(HiddenKIllServer.ancho / HiddenKIllServer.PPM,
+				HiddenKIllServer.alto / HiddenKIllServer.PPM, camaraJuego);
+
+		hud = new Hud(hiddenKill.batch);
+
 		maploader = new TmxMapLoader();
 		map = maploader.load("hiddenKillMap.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map, 1 / HiddenKIllServer.PPM);
-		
-		//centrar la camara correctamente al inicio del juego 
+
+		// centrar la camara correctamente al inicio del juego
 		camaraJuego.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
 		world = new World(new Vector2(0, -10), true);
 		b2dr = new Box2DDebugRenderer();
-		
+
 		new B2WorldCreator(world, map);
-		
-		player = new Personaje(world, this);
-		player2 = new Personaje(world,this);
-		
-		music = HiddenKIllServer.manager.get("audio/musica/musica.ogg",  Music.class);
+
+		music = HiddenKIllServer.manager.get("audio/musica/musica.ogg", Music.class);
 		music.setVolume(0.08f);
 		music.setLooping(true);
 		music.play();
-		
+
 		hs = new HiloServidor(this);
-	    hs.start();
+		hs.start();
+
+		player = new Personaje(world, this, hs, 1);
+		player2 = new Personaje(world, this, hs, 2);
 	}
-	
+
 	public TextureAtlas getAtlas() {
 		return atlas;
 	}
-	
+
 	@Override
 	public void show() {
-		
+
 	}
-	
+
 	public void handleInput(float dt) {
-		
-		
-		if(isArriba1) {
+
+		if (isArriba1) {
 			player.jump();
 //			player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
-			HiddenKIllServer.manager.get("audio/sonidos/salto1.wav",  Sound.class).play();
-		}else if(isArriba2){
+			HiddenKIllServer.manager.get("audio/sonidos/salto1.wav", Sound.class).play();
+		} else if (isArriba2) {
 			player2.jump();
 //			player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
-			HiddenKIllServer.manager.get("audio/sonidos/salto1.wav",  Sound.class).play();
+			HiddenKIllServer.manager.get("audio/sonidos/salto1.wav", Sound.class).play();
 		}
-		
-		if(isDerecha1) {
-			player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);			
-		}else if(isDerecha2){
-			player2.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player2.b2body.getWorldCenter(), true);			
+
+		if (isDerecha1) {
+			player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+		} else if (isDerecha2) {
+			player2.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player2.b2body.getWorldCenter(), true);
 
 		}
-		
-		if(isIzquierda1) {
+
+		if (isIzquierda1) {
 			player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
-		}else if(isIzquierda2){
+		} else if (isIzquierda2) {
 			player2.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player2.b2body.getWorldCenter(), true);
 
 		}
-		
 
 	}
-	
+
 	public void update(float dt) {
-		//handle user input first
+		// handle user input first
 		handleInput(dt);
-		
-		world.step(1/60f, 6, 2);
-		
+
+		world.step(1 / 60f, 6, 2);
+
 		player.update(dt);
 		player2.update(dt);
-		
 
 		hud.update(dt);
-		
-		camaraJuego.position.x = player.b2body.getPosition().x;
-		camaraJuego.position.x = player2.b2body.getPosition().x;
 
-		//update our gamecam with correct coordinates after changes
+//		camaraJuego.position.x = player.b2body.getPosition().x;
+//		camaraJuego.position.x = player2.b2body.getPosition().x;
+
+		camaraJuego.position.x += 2 * dt;
+
+		// update our gamecam with correct coordinates after changes
 		camaraJuego.update();
-		//tell our renderer to draw only what our camera can see in our game world 	
+		// tell our renderer to draw only what our camera can see in our game world
 		renderer.setView(camaraJuego);
-		
-		//Determino los finales del juego
-		if(player.getY() < 0 || player.getX() > 87) {
+
+		// Determino los finales del juego
+
+		if (player.getY() < 0 || player.getX() > 87) {
 			player.currentState = Personaje.State.DEAD;
 		}
-		
-		if(player2.getY() < 0 || player2.getX() > 87) {
+
+		if (player2.getY() < 0 || player2.getX() > 87) {
 			player2.currentState = Personaje.State.DEAD;
 		}
+	}
+
+	public boolean chequearFueraDeCamara(OrthographicCamera cam) {
+		if (player.getNroPersonaje() == 1) {
+			if (!cam.frustum.pointInFrustum(player.getX(), player.getY(), 0) && player.currentState != State.DEAD) {
+				player.currentState = Personaje.State.DEAD;
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			if (!cam.frustum.pointInFrustum(player2.getX(), player2.getY(), 0) && player2.currentState != State.DEAD) {
+				player2.currentState = Personaje.State.DEAD;
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 	}
 
 	@Override
@@ -183,13 +203,13 @@ public class PantallaJuego implements Screen{
 
 			hiddenKill.batch.setProjectionMatrix(camaraJuego.combined);
 			hiddenKill.batch.begin();
-			
+
 			player.draw(hiddenKill.batch);
 			player2.draw(hiddenKill.batch);
 
-			hs.enviarMensajeATodos("Actualizar-P1-" + player.getX()+ "-" + player.getY());
-			hs.enviarMensajeATodos("Actualizar-P2-" + player2.getX()+ "-" + player2.getY());
-			
+			hs.enviarMensajeATodos("Actualizar-P1-" + player.getX() + "-" + player.getY());
+			hs.enviarMensajeATodos("Actualizar-P2-" + player2.getX() + "-" + player2.getY());
+
 			hiddenKill.batch.end();
 
 			hiddenKill.batch.setProjectionMatrix(hud.stage.getCamera().combined);
@@ -204,39 +224,39 @@ public class PantallaJuego implements Screen{
 	}
 
 	public boolean gameOver() {
-		if(player.currentState == Personaje.State.DEAD) {
+		if (player.currentState == Personaje.State.DEAD) {
 			return false;
 		}
-		if(player2.currentState == Personaje.State.DEAD) {
+		if (player2.currentState == Personaje.State.DEAD) {
 			return false;
 		}
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public void resize(int width, int height) {
 		gamePort.update(width, height);
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
