@@ -249,8 +249,22 @@ public class PantallaJuego implements Screen {
 			hs.enviarMensajeATodos("Fin-P2");
 			return true;
 		}
-
 		return false;
+	}
+	
+	private void gameOver2() {
+		// Jugador 1
+        // Cuando el personaje se cae en la lava
+        if (player.getY() < 0) {
+            hs.enviarMensajeATodos("Termino-P1");
+        }
+
+        // Usamos la ubicacion del personaje para poder determinar la meta
+        if ((player.getX() <= 1.64f && player.getY() >= 1.46f)
+                && (player.getX() >= 1.32f && player.getY() <= 1.6f)) {
+            servidor.enviarATodos("finalizoCarrera!1");
+//            jugador1.llegoSalida();
+        }
 	}
 
 	@Override
