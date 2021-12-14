@@ -20,7 +20,6 @@ import com.micheliani.gameserver.escenas.Hud;
 import com.micheliani.gameserver.herramientas.B2WorldCreator;
 import com.micheliani.gameserver.red.HiloServidor;
 import com.micheliani.gameserver.sprites.Personaje;
-import com.micheliani.gameserver.sprites.Personaje.State;
 import com.micheliani.gameserver.utiles.Global;
 import com.micheliani.gameserver.utiles.Render;
 
@@ -54,6 +53,7 @@ public class PantallaJuego implements Screen {
 	
 	private int jugadorMuerto = 0;
 	private float contInicio = 0; 
+	private float tiempoParaMorir = 0;
 
 	public boolean isArriba1 = false, isDerecha1 = false, isIzquierda1 = false, isArriba2 = false, isDerecha2 = false,
 			isIzquierda2 = false;
@@ -146,11 +146,9 @@ public class PantallaJuego implements Screen {
 //		camaraJuego.position.x = player2.b2body.getPosition().x;
 		
 		contInicio += dt;
-		if(contInicio>5) {
-			camaraJuego.position.x += 2*dt;
+		if(contInicio>10) {
+			camaraJuego.position.x += (1.2)*dt;
 		}
-
-		camaraJuego.position.x += 2 * dt;
 
 		// update our gamecam with correct coordinates after changes
 		camaraJuego.update();
@@ -158,37 +156,35 @@ public class PantallaJuego implements Screen {
 		renderer.setView(camaraJuego);
 
 		// Determino los finales del juego
-
-		if (player.getY() < 0 || player.getX() > 87) {
-			player.currentState = Personaje.State.DEAD;
-		}
-
-		if (player2.getY() < 0 || player2.getX() > 87) {
-			player2.currentState = Personaje.State.DEAD;
-		}
 	}
+	
+	
 
-	public boolean chequearFueraDeCamara(OrthographicCamera cam) {
-		if (player.getNroPersonaje() == 1) {
-			if (!cam.frustum.pointInFrustum(player.getX(), player.getY(), 0) && player.currentState != State.DEAD) {
-				player.currentState = Personaje.State.DEAD;
-				jugadorMuerto = 1;
-				return true;
-				
-			} else {
-				return false;
+//	public void muere() {
+//		
+//		if(player.b2body.getPosition().x < 0 || player.b2body.getPosition().y > 87) {
+//		player.currentState = Personaje.State.DEAD;
+//	}
+//	
+//	if(player.b2body.getPosition().x < 0 || player.b2body.getPosition().y > 87) {
+//		player2.currentState = Personaje.State.DEAD;
+//	}
+//		
+	
+	
+	public void chequearFueraDeCamara(float delta) {
+		if(!camaraJuego.frustum.pointInFrustum(player.b2body.getPosition().x, player.b2body.getPosition().y, 0)) {
+			tiempoParaMorir += delta;
+			if(tiempoParaMorir > 5f) {
+				player.currentState = Personaje.State.DEAD;				
 			}
-		} else {
-			if (!cam.frustum.pointInFrustum(player2.getX(), player2.getY(), 0) && player2.currentState != State.DEAD) {
-				player2.currentState = Personaje.State.DEAD;
-				jugadorMuerto = 2;
-				return true;
-				
-			} else {
-				return false;
-			}
+			
+		}else if(!camaraJuego.frustum.pointInFrustum(player2.b2body.getPosition().x, player2.b2body.getPosition().y, 0)) {
+			tiempoParaMorir += delta;
+			if(tiempoParaMorir > 5f) {
+				player2.currentState = Personaje.State.DEAD;				
+			}		
 		}
-
 	}
 
 	@Override
@@ -227,7 +223,7 @@ public class PantallaJuego implements Screen {
 			hiddenKill.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 			hud.stage.draw();
 			
-			chequearFueraDeCamara(camaraJuego);
+			chequearFueraDeCamara(delta);
 
 			if (gameOver()) {
 				int x = 0;

@@ -1,6 +1,5 @@
 package com.micheliani.gameserver.sprites;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -99,7 +98,6 @@ public class Personaje extends Sprite {
 			hs.enviarMensajeATodos("ActualizarM-P1-" + currentState);					
 		}else {
 			hs.enviarMensajeATodos("ActualizarM-P2-" + currentState);				
-
 		} 
 		
 		if ((b2body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {

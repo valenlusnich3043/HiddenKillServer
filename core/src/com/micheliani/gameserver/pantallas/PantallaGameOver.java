@@ -23,11 +23,11 @@ public class PantallaGameOver implements Screen{
 	private Game game; 
 	
 	private HiloServidor hs;
-	private int p;
+	private int jugador;
 
-	public PantallaGameOver(Game game, int x) {
+	public PantallaGameOver(Game game, int jugador) {
 		this.game = game;
-		this.p = x;
+		this.jugador = jugador;
 		viewport = new FitViewport(HiddenKIllServer.ancho, HiddenKIllServer.alto, new OrthographicCamera());
 		stage = new Stage(viewport, ((HiddenKIllServer) game).batch);
 		
@@ -38,9 +38,13 @@ public class PantallaGameOver implements Screen{
 		table.setFillParent(true);
 		
 		Label gameOverLabel = new Label("FIN DEL JUEGO", font);
+		Label ganador = new Label("Pierde el jugador" + this.jugador, font);
 		Label juegarDeNuevoLabel = new Label("Haz click en cualquier parte de la pantalla para iniciar de vuelta", font);
 		
 		table.add(gameOverLabel).expandX();
+		table.row();
+		table.row();
+		table.add(ganador).expandX();
 		table.row();
 		table.row();
 		table.add(juegarDeNuevoLabel).expandX().padTop(10f);
