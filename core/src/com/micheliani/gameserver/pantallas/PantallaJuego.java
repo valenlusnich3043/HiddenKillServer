@@ -146,7 +146,7 @@ public class PantallaJuego implements Screen {
 //		camaraJuego.position.x = player2.b2body.getPosition().x;
 
 		contInicio += dt;
-		if (contInicio > 10) {
+		if (contInicio > 30) {
 			camaraJuego.position.x += (1.2) * dt;
 		}
 
