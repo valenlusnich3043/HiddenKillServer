@@ -50,9 +50,9 @@ public class PantallaJuego implements Screen {
 
 	// Red
 	private HiloServidor hs;
-	
+
 	private int jugadorMuerto = 0;
-	private float contInicio = 0; 
+	private float contInicio = 0;
 	private float tiempoParaMorir = 0;
 
 	public boolean isArriba1 = false, isDerecha1 = false, isIzquierda1 = false, isArriba2 = false, isDerecha2 = false,
@@ -144,23 +144,19 @@ public class PantallaJuego implements Screen {
 
 //		camaraJuego.position.x = player.b2body.getPosition().x;
 //		camaraJuego.position.x = player2.b2body.getPosition().x;
-		
+
 		contInicio += dt;
-		if(contInicio>10) {
-			camaraJuego.position.x += (1.2)*dt;
+		if (contInicio > 10) {
+			camaraJuego.position.x += (1.2) * dt;
 		}
 
-		// update our gamecam with correct coordinates after changes
+		//seteamos nuestra camara con las coordenadas correctas despues de movernos
 		camaraJuego.update();
 		// tell our renderer to draw only what our camera can see in our game world
 		renderer.setView(camaraJuego);
-		
-
 
 		// Determino los finales del juego
 	}
-	
-	
 
 //	public void muere() {
 //		
@@ -171,23 +167,28 @@ public class PantallaJuego implements Screen {
 //	if(player.b2body.getPosition().x < 0 || player.b2body.getPosition().y > 87) {
 //		player2.currentState = Personaje.State.DEAD;
 //	}
-//		
-	
-	
+
 	public void chequearFueraDeCamara(float delta) {
-		if(!camaraJuego.frustum.pointInFrustum(player.b2body.getPosition().x, player.b2body.getPosition().y, 0)) {
+		if (!camaraJuego.frustum.pointInFrustum(player.b2body.getPosition().x, player.b2body.getPosition().y, 0)) {
 			tiempoParaMorir += delta;
-			if(tiempoParaMorir > 5f) {
-				player.currentState = Personaje.State.DEAD;		
-	            hs.enviarMensajeATodos("Termino!1");
+			if (tiempoParaMorir > 5f) {
+				player.currentState = Personaje.State.DEAD;
+				hs.enviarMensajeATodos("Termino!1");
 			}
+
+		}else if(player2.b2body.getPosition().x > 87 || player.b2body.getPosition().y < -2){
+			player.currentState = Personaje.State.DEAD;
+			hs.enviarMensajeATodos("Termino!1");
 			
-		}else if(!camaraJuego.frustum.pointInFrustum(player2.b2body.getPosition().x, player2.b2body.getPosition().y, 0)) {
+		}else if (!camaraJuego.frustum.pointInFrustum(player2.b2body.getPosition().x, player2.b2body.getPosition().y,0)) {
 			tiempoParaMorir += delta;
-			if(tiempoParaMorir > 5f) {
+			if (tiempoParaMorir > 5f) {
 				player2.currentState = Personaje.State.DEAD;
-	            hs.enviarMensajeATodos("Termino!2");
-			}		
+				hs.enviarMensajeATodos("Termino!2");
+			}
+		}else if(player.b2body.getPosition().x > 87 || player2.b2body.getPosition().y < -2){
+			player2.currentState = Personaje.State.DEAD;
+			hs.enviarMensajeATodos("Termino!2");
 		}
 	}
 
@@ -201,6 +202,7 @@ public class PantallaJuego implements Screen {
 			Render.end();
 		} else {
 			// separate our update logic from render
+			// separamos nuestra logica de actualizacion del render
 			update(delta);
 
 			// limpiar pantalla
@@ -226,7 +228,6 @@ public class PantallaJuego implements Screen {
 
 			hiddenKill.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 			hud.stage.draw();
-			
 
 			chequearFueraDeCamara(delta);
 //			
@@ -256,7 +257,6 @@ public class PantallaJuego implements Screen {
 //		}
 //		return false;
 //	}
-	
 
 	@Override
 	public void resize(int width, int height) {
